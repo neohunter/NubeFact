@@ -1,6 +1,13 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in peru_sunat_ruc.gemspec
+# Specify your gem's dependencies in nubefact.gemspec
 gemspec
 
-gem 'pry'
+group :development do
+  gem 'pry'
+  gem 'rspec', '~> 3.6'
+  gem 'simplecov', '~> 0.15'
+end
+
+
+gem 'simplecov', :require => false, :group => :test

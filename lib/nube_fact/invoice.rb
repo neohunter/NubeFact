@@ -49,19 +49,22 @@ class NubeFact::Invoice
         "items",
         "guias"
 
-
+  attr_accessor :items, :guias
 
   def initialize(data_hash = {})
+    @items = []
+    @guias = []
+
     data_hash.each do|key, value|
       instance_variable_set "@#{key}", value
     end
   end
 
-  def add_item
+  def add_item(item)
 
   end
 
-  def add_guia
+  def add_guia(guia)
 
   end
 end
