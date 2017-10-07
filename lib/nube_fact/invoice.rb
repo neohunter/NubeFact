@@ -56,4 +56,12 @@ class NubeFact::Invoice
       instance_variable_set "@#{key}", value
     end
   end
+
+  def add_item
+
+  end
+
+  def add_guia
+
+  end
 end
