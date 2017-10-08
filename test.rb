@@ -29,8 +29,9 @@ invoice.add_item({
   descripcion: 'Osito de peluche de taiwan',
   cantidad: 1,
   valor_unitario: 65.00,
-  tipo_de_igv: 11,
+  tipo_de_igv: 16,
 })
+result = invoice.deliver
 binding.pry
 
 puts "DONE"
