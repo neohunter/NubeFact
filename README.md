@@ -64,3 +64,12 @@ invoice.add_item({
 result = invoice.deliver
 
 ```
+
+
+# ToDo
+* Agregar constantes para los tipos de datos numericos
+* Agreagar soporte para consultar facturas
+* Agregar soporte para crear otros tipos de documetn
+* Agregar soporte para consultar otros tipos de documento
+* Agregar tests usando webmock
+* Alcanzar coverage 100%
