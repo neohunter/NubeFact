@@ -143,4 +143,8 @@ class NubeFact::Invoice
     NubeFact.request to_h
   end
 
+  def calculate_amounts
+
+  end
+
 end

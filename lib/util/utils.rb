@@ -1,10 +1,25 @@
 module NubeFact::Utils
+  # This iterates over all fields and if is an array (items and guias) converts
+  # it to hash using to_h
   def to_h
-    Hash[self.class::FIELDS.map{|field| [field, send(field)]}]
+    Hash[self.class::FIELDS.map do |field| 
+      value = send(field)
+      value = value.map &:to_h if value.is_a? Array
+      [field, value]
+    end]
   end
 
   def to_json(options = {})
-    JSON.generate self.to_h, options
+    self.to_h.to_json options
+  end
+
+  # Fix to bug due to ActiveSupport::Serialization JSON.
+  #  it calls as_json in order to get the hash representation of the object
+  #  ActiveSupport uses all object attributes, including item.invoice who force
+  #  the json convertion into an infinite loop:
+  #.  (invoice -> items -> item ->  invoice -> items -> item ...)
+  def as_json(options={})
+    Hash[to_h.map { |k, v| [k.to_s, options ? v.as_json(options.dup) : v.as_json] }]
   end
 
   private

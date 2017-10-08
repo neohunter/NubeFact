@@ -95,4 +95,5 @@ class NubeFact::Invoice::Item
     # Check description on FIELDS constant
     TYPES_SUBJECT_TO_IGV.include? tipo_de_igv
   end
+  
 end
