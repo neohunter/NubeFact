@@ -2,21 +2,33 @@
 
 Ruby gem to consume NubeFact API to generate electronic tax document in PERU.
 
+Currently only has an interface to create invoice, but can be used easily to consume other operations.
+
+NubeFact API documentation: https://docs.google.com/document/d/1QWWSILBbjd4MDkJl7vCkL2RZvkPh0IC7Wa67BvoYIhA/edit
+
 Se pueden hacer 4 tipos de operaciones con nuestra API:
 
+```
 OPERACIÓN 1: GENERAR FACTURAS, BOLETAS Y NOTAS
 OPERACIÓN 2: CONSULTA DE FACTURAS, BOLETAS Y NOTAS
 OPERACIÓN 3: GENERAR ANULACIÓN DE FACTURAS, BOLETAS Y NOTAS
 OPERACIÓN 4: CONSULTA ANULACIÓN DE FACTURAS, BOLETAS Y NOTAS
+```
 
-
-## Como usar:
+## How to use:
 
 ```ruby
 
+# Set your url_token and api_token.
+# If you are using rails copy this 2 lines to config/initilizers/nubefact.rb
 NubeFact.url_token = '93123123-ecfc-4496-ac6e-8add6940e238'
 NubeFact.api_token = '29842498b15ff41f9817f036b23182e789d5a04f28ca14255822a59bfcee00e4e'
+```
 
+## Create an Electronic Invoice
+
+```ruby
+# create a new Invoice object
 invoice = NubeFact::Invoice.new({
                                serie: 'F001',
                               numero: 2,
@@ -36,6 +48,10 @@ invoice = NubeFact::Invoice.new({
                         codigo_unico: 'ABC',
                       formato_de_pdf: 'A5'
 })
+
+# Add items
+# You don't need to add the fields that are calculated like total or igv
+# those got calculated automatically.
 
 invoice.add_item({
   unidad_de_medida: 'ZZ',
