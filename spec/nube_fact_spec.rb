@@ -13,6 +13,7 @@ describe NubeFact do
       expect(url).to be_a(URI)
       expect(url.to_s).to eq("https://www.nubefact.com/api/v1/abc")
     end
+
   end
 
   describe '#request' do
@@ -35,6 +36,16 @@ describe NubeFact do
         NubeFact.api_token = '123'
         NubeFact.url_token = nil
         expect{ NubeFact.request(nil) }.to raise_error(NubeFact::NotConfigured)
+      end
+    end
+
+    context 'when response is an error' do
+      it 'should raise ErrorResponse' do
+      # {
+      #   "errors": "El archivo enviado no cumple con el formato establecido",
+      #   "codigo": 20
+      # }
+
       end
     end
   end

@@ -1,3 +1,10 @@
 # NubeFact
 
 Ruby gem to consume NubeFact API to generate electronic tax document in PERU.
+
+Se pueden hacer 4 tipos de operaciones con nuestra API:
+
+OPERACIÓN 1: GENERAR FACTURAS, BOLETAS Y NOTAS
+OPERACIÓN 2: CONSULTA DE FACTURAS, BOLETAS Y NOTAS
+OPERACIÓN 3: GENERAR ANULACIÓN DE FACTURAS, BOLETAS Y NOTAS
+OPERACIÓN 4: CONSULTA ANULACIÓN DE FACTURAS, BOLETAS Y NOTAS

@@ -3,6 +3,11 @@ require 'net/http'
 require 'openssl'
 require 'json'
 
+module NubeFact; end
+
+require "util/validator"
+require "util/utils"
+
 require "nube_fact/version"
 require "nube_fact/exceptions"
 require "nube_fact/invoice"
@@ -14,6 +19,8 @@ module NubeFact
 
   READ_TIMEOUT = 120
   LIST_TIMEOUT = 360
+
+  DATE_FORMAT = "%d-%m-%Y"
 
   extend self
   
@@ -37,7 +44,14 @@ module NubeFact
 
     response = http.request request
 
-    JSON.parse(response.read_body)
+    # ToDO evaluate response code (not authorized, 500, etc)
+
+    result = JSON.parse(response.read_body)
+    if result['errors']
+      raise ErrorResponse.new "#{result['codigo']}: #{result['errors']}"
+    end
+
+    result
   end
 
   def url
