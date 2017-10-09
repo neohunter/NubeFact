@@ -64,7 +64,7 @@ describe NubeFact::Invoice do
   describe '#deliver' do
     let(:params){ valid_params }
     let(:item) do
-      allow(NubeFact::Invoice::Item).to receive(:new).and_return({})
+      instance_double('Item', to_h: {})
     end
 
     before do

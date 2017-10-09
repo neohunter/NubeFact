@@ -26,7 +26,7 @@ module NubeFact::Utils
     def set_default_data
       self.class::DEFAULT_DATA.each do |field, value|
         value = value.call if value.kind_of? Proc
-        instance_variable_set("@#{field}", value)
+        send "#{field}=", value
       end
     end
 
