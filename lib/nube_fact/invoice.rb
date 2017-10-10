@@ -111,9 +111,10 @@ class NubeFact::Invoice
         tipo_de_comprobante: 1,     
                       serie: 'F',   
           sunat_transaction: 1,
-           fecha_de_emision: -> { Time.now.strftime(NubeFact::DATE_FORMAT) },
+           fecha_de_emision: ->(_i) { Date.today },
           porcentaje_de_igv: 18,
-                     moneda: 1
+                     moneda: 1,
+             tipo_de_cambio: ->(invoice) { invoice.set_tipo_de_cambio } 
   }
 
   def initialize(data_hash)
@@ -145,6 +146,19 @@ class NubeFact::Invoice
 
   def calculate_amounts
 
+  end
+
+  def set_tipo_de_cambio
+    return "" unless moneda == 2
+    NubeFact::Sunat.dollar_rate Date.parse(fecha_de_emision)
+  end
+
+
+  def fecha_de_emision
+    if [Date, Time, DateTime].include? @fecha_de_emision.class
+      return @fecha_de_emision.strftime(NubeFact::DATE_FORMAT)
+    end
+    @fecha_de_emision
   end
 
 end

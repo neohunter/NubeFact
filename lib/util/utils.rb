@@ -25,14 +25,14 @@ module NubeFact::Utils
   private
     def set_default_data
       self.class::DEFAULT_DATA.each do |field, value|
-        value = value.call if value.kind_of? Proc
+        next if send(field)
+
+        value = value.call(self) if value.kind_of? Proc
         send "#{field}=", value
       end
     end
 
     def load_data_from_param(data_hash)
-      set_default_data
-
       data_hash.each do|key, value|
         if self.class.const_defined?('AUTO_CALCULATED_FIELDS') \
           && self.class::AUTO_CALCULATED_FIELDS.include?(key)
@@ -45,5 +45,7 @@ module NubeFact::Utils
           raise NubeFact::InvalidField.new "Invalid Field: #{key}"
         end
       end
+
+      set_default_data
     end
 end

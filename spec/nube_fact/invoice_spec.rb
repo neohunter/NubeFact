@@ -9,6 +9,10 @@ describe NubeFact::Invoice do
     Hash[NubeFact::Invoice::REQUIRED_FIELDS.map{|k| [k, 'abc']}]
   end
 
+  before do
+    allow(NubeFact::Sunat).to receive(:dollar_rate)
+  end
+
   describe '#initialize' do
     it 'should not allow incorrect fields' do
       params = {a: 1}
@@ -114,5 +118,25 @@ describe NubeFact::Invoice do
     it 'should return json representation' do
       expect(subject.to_json).to eq(subject.to_h.to_json)
     end
+  end
+
+  describe '#set_tipo_de_cambio' do
+    context 'when is not dollar' do
+      let(:params){ valid_params.merge moneda: 3 }
+      it 'should return if moneda is not dollar' do
+        expect(subject.set_tipo_de_cambio).to eq('')
+      end
+    end
+
+    context 'when is dollar' do
+      let(:params){ valid_params.merge moneda: 2, fecha_de_emision: Date.today }
+      it 'should return call Sunat.dollar_rate' do
+        allow(NubeFact::Sunat).to receive(:dollar_rate).and_return 'abc'
+        expect(subject.set_tipo_de_cambio).to eq('abc')
+      end
+    end
+
+
+    
   end
 end 
