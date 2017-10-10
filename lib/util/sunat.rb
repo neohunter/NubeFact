@@ -1,3 +1,4 @@
+require 'bigdecimal'
 require 'date'
 require 'nokogiri'
 require 'open-uri'
@@ -19,7 +20,7 @@ module NubeFact::Sunat
       # only rely on preciodolar for current day
       raise e unless date == Date.today
       
-      dollar_from_preciodolar(date)
+      dollar_from_preciodolar
     end
   end
 
