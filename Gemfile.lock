@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    nubefact (0.0.5)
+    nubefact (0.0.6)
 
 GEM
   remote: https://rubygems.org/
