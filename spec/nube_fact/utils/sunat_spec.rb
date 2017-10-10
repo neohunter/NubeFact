@@ -12,8 +12,7 @@ describe NubeFact::Sunat do
   end
 
   before do
-    # stub_requets!
-    WebMock.allow_net_connect!
+    stub_requets!
   end
 
   describe '#dollar_rate' do
@@ -31,10 +30,44 @@ describe NubeFact::Sunat do
   end
 
   describe '#dollar_from_sunat' do
+    before do
+      WebMock.allow_net_connect!
+    end
+
     # This tests are not good idea.
     it 'should return a valid dollar amount' do
       expect(subject.dollar_from_sunat).to be > 2.5
       expect(subject.dollar_from_sunat).to be < 3.5
+    end
+
+    it 'should grab a valid matrix of historical rates' do
+      october_2016 = {
+         1 => 3.403,
+        18 => 3.400,
+        27 => 3.367,
+        31 => 3.363,
+      }
+
+      october_2016.each do |day, expected_rate|
+        date = Date.new(2016, 10, day)
+        expect(subject.dollar_from_sunat(date)).to eq(expected_rate)
+      end
+    end
+
+    it 'should grab the rate of the previous month if is not available' do
+      date = Date.new(2017, 07, 1)
+      expect(subject.dollar_from_sunat(date)).to eq(3.255)
+    end
+
+
+    context 'when invalid date' do
+      it 'should raise InvalidDate error' do
+        date = Date.new(1994, 07, 1)
+        expect{ subject.dollar_from_sunat(date) }.to raise_error(NubeFact::Sunat::InvalidDate)
+
+        date = Date.new(3000, 07, 1)
+        expect{ subject.dollar_from_sunat(date) }.to raise_error(NubeFact::Sunat::InvalidDate)
+      end
     end
   end
 end 

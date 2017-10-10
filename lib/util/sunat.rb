@@ -1,3 +1,4 @@
+require 'date'
 require 'nokogiri'
 require 'open-uri'
 
@@ -11,21 +12,51 @@ require 'open-uri'
 module NubeFact::Sunat
   extend self
 
-  def dollar_rate(time = Time.now)
+  def dollar_rate(date = Date.today)
     @dollar ||= update_dollar_rate
   end
 
-  def update_dollar_rate(time = Time.now)
-    dollar_from_sunat(time) rescue dollar_from_preciodolar(time)
+  def update_dollar_rate(date = Date.today)
+    dollar_from_sunat(date) rescue dollar_from_preciodolar(date)
   end
 
-  def dollar_from_sunat(time = Time.now)
-    doc = Nokogiri::HTML(open("http://www.sunat.gob.pe/cl-at-ittipcam/tcS01Alias?mes=#{time.month}&anho=#{time.year}"))
-    begin
-      rate = doc.at("td.H3 strong:contains(#{time.day})").parent.parent.at('td:last').text.strip
-    rescue
-      warn "Not able to get for the specific day #{time}, using the latest available"
-      rate = doc.at ('td.tne10:last').text.strip
+  def dollar_from_sunat(date = Date.today)
+    raise InvalidDate if date.year < 2000 || date.year > Time.now.year
+
+    doc = Nokogiri::HTML(open("http://www.sunat.gob.pe/cl-at-ittipcam/tcS01Alias?mes=#{date.month}&anho=#{date.year}")) do |config|
+      config.noblanks
+    end
+
+    result = {}
+    day = nil
+    doc.css('td.H3, td.tne10').each do |td|
+      if day
+        result[day] << td.text.strip
+        day = nil if result[day].count == 2
+      else
+        day = td.at(:strong).text.strip.to_i
+        result[day] = []
+      end
+    end
+
+    if result[date.day]
+      rate = result[date.day].last # venta
+    else
+      # try to get the nearest day.
+      i = 0
+      while i < date.day
+        if result[i]
+           rate = result[i].last
+        end
+        i += 1
+      end
+
+      unless rate
+        prev_month = date.to_datetime.prev_month
+        prev_month = Date.new(prev_month.year, prev_month.month, -1)
+        warn "Checking with previous month #{prev_month}"
+        rate = dollar_from_sunat(prev_month)
+      end
     end
 
     BigDecimal.new(rate)
@@ -48,4 +79,6 @@ module NubeFact::Sunat
 
     result.last["sell"]
   end
+
+  class InvalidDate < StandardError; end;
 end
