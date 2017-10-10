@@ -13,11 +13,14 @@ module NubeFact::Sunat
   extend self
 
   def dollar_rate(date = Date.today)
-    @dollar ||= update_dollar_rate
-  end
-
-  def update_dollar_rate(date = Date.today)
-    dollar_from_sunat(date) rescue dollar_from_preciodolar(date)
+    begin
+      dollar_from_sunat(date)
+    rescue => e
+      # only rely on preciodolar for current day
+      raise e unless date == Date.today
+      
+      dollar_from_preciodolar(date)
+    end
   end
 
   def dollar_from_sunat(date = Date.today)
@@ -39,6 +42,8 @@ module NubeFact::Sunat
       end
     end
 
+    # result is {day: [buy, sell], day: [buy, sell]}
+
     if result[date.day]
       rate = result[date.day].last # venta
     else
@@ -52,6 +57,7 @@ module NubeFact::Sunat
       end
 
       unless rate
+        # not possible to get the previous date, lests why with previous month
         prev_month = date.to_datetime.prev_month
         prev_month = Date.new(prev_month.year, prev_month.month, -1)
         warn "Checking with previous month #{prev_month}"
