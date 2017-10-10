@@ -7,6 +7,7 @@ module NubeFact; end
 
 require "util/validator"
 require "util/utils"
+require "util/sunat"
 
 require "nube_fact/version"
 require "nube_fact/exceptions"
