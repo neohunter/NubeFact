@@ -135,8 +135,19 @@ describe NubeFact::Invoice do
         expect(subject.set_tipo_de_cambio).to eq('abc')
       end
     end
+  end
 
+  describe "self#consultar" do
+    it 'should call NubeFact#request' do
+      expected_hash = {
+        operacion: "consultar_comprobante",
+        tipo_de_comprobante: 1,
+        serie: 'abc',
+        numero: 123
+      }
+      expect(NubeFact).to receive(:request).with(expected_hash)
 
-    
+      NubeFact::Invoice.consultar 'abc', 123
+    end
   end
 end 

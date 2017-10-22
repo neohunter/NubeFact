@@ -161,4 +161,15 @@ class NubeFact::Invoice
     @fecha_de_emision
   end
 
+  class << self
+    def consultar(serie, numero)
+      NubeFact.request({
+        operacion: "consultar_comprobante",
+        tipo_de_comprobante: 1,
+        serie: serie,
+        numero: numero
+      })
+    end 
+  end
+
 end
