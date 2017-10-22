@@ -17,6 +17,7 @@ require 'nube_fact/invoice/item'
 
 module NubeFact
   API_BASE = 'https://www.nubefact.com/api/v1'
+  API_BASE_DEMO = 'https://demo.nubefact.com/api/v1'
 
   READ_TIMEOUT = 120
   LIST_TIMEOUT = 360
@@ -56,6 +57,11 @@ module NubeFact
   end
 
   def url
-    URI("#{API_BASE}/#{url_token}")
+    base_url = @use_demo ? API_BASE_DEMO : API_BASE
+    URI("#{base_url}/#{url_token}")
+  end
+
+  def use_demo!
+    @use_demo = true
   end
 end
