@@ -1,4 +1,4 @@
-class NubeFact::Invoice::Item
+class NubeFact::Document::Item
   include NubeFact::Validator
   include NubeFact::Utils
   

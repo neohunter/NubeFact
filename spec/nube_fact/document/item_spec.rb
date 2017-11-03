@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe NubeFact::Invoice::Item do
+describe NubeFact::Document::Item do
   let!(:invoice) do
     instance_double('Invoice', porcentaje_de_igv: 20)
   end
   subject {
-    NubeFact::Invoice::Item.new invoice, params
+    NubeFact::Document::Item.new invoice, params
   }
   let(:params) { Hash.new }
   let!(:valid_params) do
@@ -19,20 +19,20 @@ describe NubeFact::Invoice::Item do
 
   describe '#initialize' do
     before do
-      allow_any_instance_of(NubeFact::Invoice::Item).to receive(:validate!)
-      allow_any_instance_of(NubeFact::Invoice::Item).to receive(:calculate_amounts)
+      allow_any_instance_of(NubeFact::Document::Item).to receive(:validate!)
+      allow_any_instance_of(NubeFact::Document::Item).to receive(:calculate_amounts)
     end
     it 'should not allow incorrect fields' do
       params = {a: 1}
-      expect{ NubeFact::Invoice::Item.new nil, params }.to raise_error NubeFact::InvalidField
+      expect{ NubeFact::Document::Item.new nil, params }.to raise_error NubeFact::InvalidField
     end
 
     it 'should set provided values' do
-      item =  NubeFact::Invoice::Item.new(nil, {unidad_de_medida: 'abc'})
+      item =  NubeFact::Document::Item.new(nil, {unidad_de_medida: 'abc'})
       expect(item.unidad_de_medida).to eq 'abc'
 
-      field = NubeFact::Invoice::Item::FIELDS.sample
-      item =  NubeFact::Invoice::Item.new(nil, {field => 'def'})
+      field = NubeFact::Document::Item::FIELDS.sample
+      item =  NubeFact::Document::Item.new(nil, {field => 'def'})
       expect(item.send(field)).to eq 'def'
     end
 
@@ -42,18 +42,18 @@ describe NubeFact::Invoice::Item do
     end
 
     it 'should overwrite default data with params' do
-      item =  NubeFact::Invoice::Item.new(nil, {unidad_de_medida: 'NIU'})
+      item =  NubeFact::Document::Item.new(nil, {unidad_de_medida: 'NIU'})
       expect(item.unidad_de_medida).to eq 'NIU'
     end
 
     it 'should call validate!' do
-      expect_any_instance_of(NubeFact::Invoice::Item).to receive(:validate!)
+      expect_any_instance_of(NubeFact::Document::Item).to receive(:validate!)
       subject
     end
 
     it 'should add a warn if passed a field that will be auto calculated' do
-      expect_any_instance_of(NubeFact::Invoice::Item).to receive("warn")
-      NubeFact::Invoice::Item.new(nil, {total: 100})
+      expect_any_instance_of(NubeFact::Document::Item).to receive("warn")
+      NubeFact::Document::Item.new(nil, {total: 100})
     end
 
   end
@@ -78,7 +78,7 @@ describe NubeFact::Invoice::Item do
   end
 
   describe '#calculate_amounts' do
-    subject{ NubeFact::Invoice::Item.new invoice, valid_params }
+    subject{ NubeFact::Document::Item.new invoice, valid_params }
 
     it 'should calculate values' do
       subject.calculate_amounts
@@ -102,10 +102,10 @@ describe NubeFact::Invoice::Item do
 
   describe '#should_add_igv?' do
 
-    subject{ NubeFact::Invoice::Item.new invoice, valid_params }
+    subject{ NubeFact::Document::Item.new invoice, valid_params }
 
     it 'should be truthy if tipo_de_igv must add igv' do
-      NubeFact::Invoice::Item::TYPES_SUBJECT_TO_IGV.each do |v|
+      NubeFact::Document::Item::TYPES_SUBJECT_TO_IGV.each do |v|
         subject.tipo_de_igv = v
         expect(subject.should_add_igv?).to be_truthy
       end

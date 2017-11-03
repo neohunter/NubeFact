@@ -99,7 +99,7 @@ describe NubeFact::Invoice do
     context 'when given a hash' do
       let(:param){ Hash.new }
       it 'should create an Item from hash' do
-        expect(NubeFact::Invoice::Item).to receive(:new).with(subject, param)
+        expect(NubeFact::Document::Item).to receive(:new).with(subject, param)
         subject.add_item param
       end
     end

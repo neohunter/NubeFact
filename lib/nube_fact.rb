@@ -3,6 +3,8 @@ require 'net/http'
 require 'openssl'
 require 'json'
 
+# https://docs.google.com/document/d/1QWWSILBbjd4MDkJl7vCkL2RZvkPh0IC7Wa67BvoYIhA/edit
+
 module NubeFact; end
 
 require "util/validator"
@@ -11,9 +13,12 @@ require "util/sunat"
 
 require "nube_fact/version"
 require "nube_fact/exceptions"
+
+require "nube_fact/document"
+require 'nube_fact/document/guia'
+require 'nube_fact/document/item'
 require "nube_fact/invoice"
-require 'nube_fact/invoice/guia'
-require 'nube_fact/invoice/item'
+require "nube_fact/credit_note"
 
 module NubeFact
   API_BASE = 'https://www.nubefact.com/api/v1'
