@@ -16,7 +16,7 @@ class NubeFact::Document::Item
       # con IGV
     "descuento",
     "subtotal",
-      # @ToDO calcular: VALOR_UNITARIO * CANTIDAD - DESCUENTO 
+      # VALOR_UNITARIO * CANTIDAD - DESCUENTO 
     "tipo_de_igv",
       # 1 = Gravado - Operación Onerosa
       # 2 = Gravado – Retiro por premio

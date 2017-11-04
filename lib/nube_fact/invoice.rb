@@ -1,20 +1,6 @@
 class NubeFact::Invoice < NubeFact::Document
   TIPO_DE_COMPROBANTE = 1
 
-  REQUIRED_FIELDS = %i(
-    serie
-    numero
-    sunat_transaction
-    cliente_tipo_de_documento
-    cliente_numero_de_documento
-    cliente_denominacion
-    cliente_direccion
-    fecha_de_emision
-    moneda
-    porcentaje_de_igv
-    total
-  )
-
   DEFAULT_DATA = {
                   operacion: 'generar_comprobante',
         tipo_de_comprobante: 1,     

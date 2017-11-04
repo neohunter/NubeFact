@@ -121,6 +121,10 @@ class NubeFact::Document
   )
 
   def initialize(data_hash)
+    if self.class == NubeFact::Document
+      raise "Don't initialize NubeFact::Document directly "
+    end
+
     @items = []
     @guias = []
 
@@ -168,7 +172,7 @@ class NubeFact::Document
     def consultar(serie, numero)
       NubeFact.request({
         operacion: "consultar_comprobante",
-        tipo_de_comprobante: TIPO_DE_COMPROBANTE,
+        tipo_de_comprobante: self::TIPO_DE_COMPROBANTE,
         serie: serie,
         numero: numero
       })
@@ -177,7 +181,7 @@ class NubeFact::Document
     def anular(serie, numero, motivo)
       NubeFact.request({
         operacion: "generar_anulacion",
-        tipo_de_comprobante: TIPO_DE_COMPROBANTE,
+        tipo_de_comprobante: self::TIPO_DE_COMPROBANTE,
         serie: serie,
         numero: numero,
         motivo: motivo
