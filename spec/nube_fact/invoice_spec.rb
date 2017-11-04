@@ -6,7 +6,7 @@ describe NubeFact::Invoice do
   }
   let(:params) { Hash.new }
   let!(:valid_params) do
-    Hash[NubeFact::Invoice::REQUIRED_FIELDS.map{|k| [k, 'abc']}]
+    Hash[described_class.required_fields.map{|k| [k, 'abc']}]
   end
 
   before do

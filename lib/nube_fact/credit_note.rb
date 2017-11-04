@@ -1,6 +1,11 @@
 class NubeFact::CreditNote < NubeFact::Document
   TIPO_DE_COMPROBANTE = 3
 
+  add_required_fields *%i( documento_que_se_modifica_tipo
+                           documento_que_se_modifica_serie
+                           documento_que_se_modifica_numero
+                           tipo_de_nota_de_credito)
+
   DEFAULT_DATA = {
                   operacion: 'generar_comprobante',
         tipo_de_comprobante: 3,     
