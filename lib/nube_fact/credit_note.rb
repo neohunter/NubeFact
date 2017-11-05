@@ -8,7 +8,7 @@ class NubeFact::CreditNote < NubeFact::Document
 
   DEFAULT_DATA = {
                   operacion: 'generar_comprobante',
-        tipo_de_comprobante: 3,     
+        tipo_de_comprobante: TIPO_DE_COMPROBANTE,     
                       serie: 'F',   
           sunat_transaction: 1,
            fecha_de_emision: ->(_i) { Date.today },

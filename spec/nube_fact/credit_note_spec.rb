@@ -18,6 +18,6 @@ describe NubeFact::CreditNote do
                                                      :documento_que_se_modifica_serie,
                                                      :documento_que_se_modifica_numero,
                                                      :tipo_de_nota_de_credito)
-    expect(subject.class.required_fields).to include(*NubeFact::Document::REQUIRED_FIELDS)
+    expect(subject.class.required_fields).to include(*NubeFact::Document.required_fields)
   end
 end 

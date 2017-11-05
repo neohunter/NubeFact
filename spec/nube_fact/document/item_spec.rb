@@ -5,7 +5,7 @@ describe NubeFact::Document::Item do
     instance_double('Invoice', porcentaje_de_igv: 20)
   end
   subject {
-    NubeFact::Document::Item.new invoice, params
+    described_class.new invoice, params
   }
   let(:params) { Hash.new }
   let!(:valid_params) do
@@ -15,6 +15,21 @@ describe NubeFact::Document::Item do
       valor_unitario: 100,
          tipo_de_igv: 1
     }
+  end
+
+  context 'required fields' do
+    let(:params){ valid_params }
+
+    it 'should have valid required fields' do
+      required_fields = %i(
+        unidad_de_medida
+        descripcion
+        cantidad
+        valor_unitario
+        tipo_de_igv
+      )
+      expect(subject.class.required_fields).to eq(required_fields)
+    end
   end
 
   describe '#initialize' do

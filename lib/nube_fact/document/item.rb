@@ -44,7 +44,7 @@ class NubeFact::Document::Item
   ]
   attr_accessor *FIELDS
 
-  REQUIRED_FIELDS = %i(
+  add_required_fields *%i(
     unidad_de_medida
     descripcion
     cantidad

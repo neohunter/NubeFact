@@ -106,7 +106,7 @@ class NubeFact::Document
   
   attr_accessor *FIELDS
 
-  REQUIRED_FIELDS = %i(
+  add_required_fields *%i(
     serie
     numero
     sunat_transaction
