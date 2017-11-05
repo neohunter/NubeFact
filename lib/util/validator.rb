@@ -13,7 +13,6 @@ module NubeFact::Validator
     end
 
     def add_required_fields(*fields)
-      base = required_fields
       @required_fields = required_fields + fields
     end
 
