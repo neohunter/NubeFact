@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in nubefact.gemspec
 gemspec
 
-gem 'nokogiri', '~> 1.6'
+gem 'nokogiri', '~> 1.6.7.2'
 
 group :development do
   gem 'pry'

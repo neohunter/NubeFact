@@ -40,7 +40,8 @@ class NubeFact::Document::Item
       # Total de la linea 
     "anticipo_regularizacion",
     "anticipo_documento_serie",
-    "anticipo_documento_numero"
+    "anticipo_documento_numero",
+    'codigo_producto_sunat'
   ]
   attr_accessor *FIELDS
 
