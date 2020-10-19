@@ -27,7 +27,7 @@ module NubeFact::Sunat
   def dollar_from_sunat(date = Date.today)
     raise InvalidDate if date.year < 2000 || date.year > Time.now.year
 
-    doc = Nokogiri::HTML(open("http://www.sunat.gob.pe/cl-at-ittipcam/tcS01Alias?mes=#{date.month}&anho=#{date.year}")) do |config|
+    doc = Nokogiri::HTML(open("https://e-consulta.sunat.gob.pe/cl-at-ittipcam/tcS01Alias?mes=#{date.month}&anho=#{date.year}")) do |config|
       config.noblanks
     end
 

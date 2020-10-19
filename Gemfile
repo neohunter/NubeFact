@@ -3,7 +3,10 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in nubefact.gemspec
 gemspec
 
-gem 'nokogiri', '~> 1.6.7.2'
+gem "rake", ">= 12.3.3"
+
+gem "json", ">= 2.3.0"
+gem 'nokogiri', ">= 1.10.8"
 
 group :development do
   gem 'pry'
