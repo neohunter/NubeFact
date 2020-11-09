@@ -21,6 +21,8 @@ OPERACIÓN 4: CONSULTA ANULACIÓN DE FACTURAS, BOLETAS Y NOTAS
 
 # Set your url_token and api_token.
 # If you are using rails copy this 2 lines to config/initilizers/nubefact.rb
+require 'nube_fact'
+NubeFact.use_demo! unless Rails.env.production?
 NubeFact.url_token = '93123123-ecfc-4496-ac6e-8add6940e238'
 NubeFact.api_token = '29842498b15ff41f9817f036b23182e789d5a04f28ca14255822a59bfcee00e4e'
 ```
